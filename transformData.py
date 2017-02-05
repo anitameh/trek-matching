@@ -33,3 +33,29 @@ def write_list_to_csv(filename, data, headers=False):
             csv_writer.writerow(headers)
         for row in data:
             csv_writer.writerow(row)
+
+
+def csv_to_dict(list_of_companies, student_choice_data):
+    """
+    :param list list_of_companies:
+    :param student_choice_data:
+
+    :rtype:
+    :return:
+    """
+    student_info_dicts = {}
+
+    # assign each company a number i.e. an id
+    companies_dict = {company: number for number, company in enumerate(list_of_companies)}
+    companies_dict_reverse = {number: company for number, company in enumerate(list_of_companies)}
+
+    for index, row in enumerate(student_choice_data):
+        first_name, last_name, choice1, choice2, choice3, choice4 = row
+        full_name = last_name + ', ' + first_name
+        choices = [choice1, choice2, choice3, choice4]
+        student_info_dicts[index] = {'choices': [companies_dict[each_choice] for each_choice in choices],
+                                     'choices_full_names': choices,
+                                     'name': full_name,
+                                     'assignments': []}
+
+    return student_info_dicts, companies_dict, companies_dict_reverse
